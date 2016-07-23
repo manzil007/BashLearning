@@ -1,0 +1,32 @@
+#!/bin/bash
+add_user()
+{
+  USER=$1
+  PASSWD=$2
+  COMMENT=$@
+
+  useradd -c "${COMMENT}" $USER
+  if [ "$?" -ne "0" ]; then
+    echo "User add failed"
+    return 1
+
+  fi
+  passwd $USER $PASSWD
+
+  if [ "$?" -ne "0" ]; then
+    echo " Setting passwod failed "
+    return 2
+  fi
+  echo " Added $USER ($COMMENT) with password $PASSWD"
+}
+
+#Main Script Starts here
+
+
+echo "Please enter user name"
+read USER
+echo "password for user "
+read PASSWD 
+
+add_user  $USER $PASSWD
+echo "end of script"
